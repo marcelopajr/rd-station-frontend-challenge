@@ -1,7 +1,7 @@
 import recommendationService from './recommendation.service';
 import mockProducts from '../mocks/mockProducts';
 
-describe('recommendationService', () => {
+describe('Lógica de recomendação', () => {
   test('Retorna recomendação correta para SingleProduct com base nas preferências selecionadas', () => {
     const formData = {
       selectedPreferences: ['Integração com chatbots'],
@@ -68,7 +68,10 @@ describe('recommendationService', () => {
 
   test('Retorna o último match em caso de empate para SingleProduct', () => {
     const formData = {
-      selectedPreferences: ['Automação de marketing', 'Integração com chatbots'],
+      selectedPreferences: [
+        'Automação de marketing',
+        'Integração com chatbots',
+      ],
       selectedRecommendationType: 'SingleProduct',
     };
 
@@ -79,5 +82,83 @@ describe('recommendationService', () => {
 
     expect(recommendations).toHaveLength(1);
     expect(recommendations[0].name).toBe('RD Conversas');
+  });
+});
+
+describe('Lógica de desabilitação do botão de envio', () => {
+  // Replicando a lógica usada no SubmitButton
+  function isSubmitDisabled({
+    selectedPreferences,
+    selectedFeatures,
+    selectedRecommendationType,
+  }) {
+    return (
+      !selectedRecommendationType ||
+      ((!selectedPreferences || selectedPreferences.length === 0) &&
+        (!selectedFeatures || selectedFeatures.length === 0))
+    );
+  }
+
+  test('Botão desabilitado se nenhuma preferência e nenhuma funcionalidade forem selecionadas', () => {
+    const formData = {
+      selectedPreferences: [],
+      selectedFeatures: [],
+      selectedRecommendationType: 'SingleProduct',
+    };
+    expect(isSubmitDisabled(formData)).toBe(true);
+  });
+
+  test('Botão desabilitado se nenhum tipo de recomendação for selecionado', () => {
+    const formData = {
+      selectedPreferences: ['Integração fácil com ferramentas de e-mail'],
+      selectedFeatures: ['Rastreamento de interações com clientes'],
+      selectedRecommendationType: '',
+    };
+    expect(isSubmitDisabled(formData)).toBe(true);
+  });
+
+  test('Botão desabilitado se preferências for undefined e features vazio', () => {
+    const formData = {
+      selectedPreferences: undefined,
+      selectedFeatures: [],
+      selectedRecommendationType: 'SingleProduct',
+    };
+    expect(isSubmitDisabled(formData)).toBe(true);
+  });
+
+  test('Botão desabilitado se features for undefined e preferências vazio', () => {
+    const formData = {
+      selectedPreferences: [],
+      selectedFeatures: undefined,
+      selectedRecommendationType: 'SingleProduct',
+    };
+    expect(isSubmitDisabled(formData)).toBe(true);
+  });
+
+  test('Botão habilitado se pelo menos uma preferência for selecionada', () => {
+    const formData = {
+      selectedPreferences: ['Integração fácil com ferramentas de e-mail'],
+      selectedFeatures: [],
+      selectedRecommendationType: 'SingleProduct',
+    };
+    expect(isSubmitDisabled(formData)).toBe(false);
+  });
+
+  test('Botão habilitado se pelo menos uma funcionalidade for selecionada', () => {
+    const formData = {
+      selectedPreferences: [],
+      selectedFeatures: ['Rastreamento de interações com clientes'],
+      selectedRecommendationType: 'SingleProduct',
+    };
+    expect(isSubmitDisabled(formData)).toBe(false);
+  });
+
+  test('Botão habilitado se ambos preferência e feature forem selecionadas', () => {
+    const formData = {
+      selectedPreferences: ['Integração fácil com ferramentas de e-mail'],
+      selectedFeatures: ['Rastreamento de interações com clientes'],
+      selectedRecommendationType: 'MultipleProducts',
+    };
+    expect(isSubmitDisabled(formData)).toBe(false);
   });
 });
