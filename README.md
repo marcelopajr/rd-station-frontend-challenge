@@ -7,7 +7,8 @@
   <a href="#-sobre">Sobre</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-projeto">Projeto</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-como-executar">Como Executar</a>
+    <a href="#-como-executar">Como Executar</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-testes">Testes</a>
 </p>
 
 ## 📷 Capturas de Tela
@@ -68,7 +69,7 @@ O desafio propôs criar uma lógica de recomendação para diferentes produtos R
 - **Arquitetura modular** separando lógica de recomendação em um service independente.
 - **React Hooks** para controle de estado e reatividade da interface.
 
-## 🧪 Como Executar
+## ⚡ Como Executar
 
 Antes de começar, garanta que você tenha [Git](https://git-scm.com) e [Node.js v18.3+](https://nodejs.org/) instalados na sua máquina.
 
@@ -93,4 +94,43 @@ $ yarn start:frontend
 
 # Ou rode ambos simultaneamente:
 $ yarn start
+```
+
+## 🧪 Testes
+
+O projeto possui uma suíte de testes automatizados para garantir a qualidade da lógica de recomendação e da interface.
+
+### Como rodar os testes
+
+No diretório `frontend`, execute:
+
+```sh
+yarn test
+```
+
+### O que é testado?
+
+- **Lógica de recomendação:** Garante que os produtos recomendados estejam corretos de acordo com as preferências e funcionalidades selecionadas.
+- **Lógica do botão de envio:** Verifica se o botão de envio está habilitado ou desabilitado conforme as regras de preenchimento do formulário.
+
+### Exemplo de saída dos testes
+
+```
+PASS  src/services/recommendation.service.test.js
+  Lógica de recomendação
+    ✓ Retorna recomendação correta para SingleProduct com base nas preferências selecionadas
+    ✓ Retorna recomendações corretas para MultipleProducts com base nas preferências selecionadas
+    ✓ Retorna apenas um produto para SingleProduct com mais de um produto de match
+    ✓ Retorna o último match em caso de empate para SingleProduct
+  Lógica de desabilitação do botão de envio
+    ✓ Botão desabilitado se nenhuma preferência e nenhuma funcionalidade forem selecionadas
+    ✓ Botão desabilitado se nenhum tipo de recomendação for selecionado
+    ✓ Botão desabilitado se preferências for undefined e features vazio
+    ✓ Botão desabilitado se features for undefined e preferências vazio
+    ✓ Botão habilitado se pelo menos uma preferência for selecionada
+    ✓ Botão habilitado se pelo menos uma funcionalidade for selecionada
+    ✓ Botão habilitado se ambos preferência e feature forem selecionadas
+
+Test Suites: 1 passed, 1 total
+Tests:       11 passed, 11 total
 ```
