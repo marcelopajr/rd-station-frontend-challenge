@@ -8,7 +8,8 @@ function Preferences({
   selectedPreferences = [],
   onPreferenceChange,
 }) {
-  const [currentPreferences, setCurrentPreferences] = useState(selectedPreferences)
+  const [currentPreferences, setCurrentPreferences] =
+    useState(selectedPreferences);
 
   const handlePreferenceChange = (preference) => {
     const updatedPreferences = currentPreferences.includes(preference)
@@ -20,7 +21,7 @@ function Preferences({
   };
 
   return (
-    <div className="mb-4">
+    <div className="mb-6">
       <h2 className="text-lg font-bold mb-2">Preferências:</h2>
       <ul>
         {preferences.map((preference, index) => (
